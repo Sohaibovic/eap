@@ -1,18 +1,5 @@
 
-- name: Fail for Missing Transfer Method
-  fail:
-    msg: "This role requires transfer_method to be set and non empty. See the README"
-  when: transfer_method is not defined or transfer_method == ''
 
-- name: Fail for Missing Red Hat Network Username
-  fail:
-    msg: This role requires rhn_username to be set and non empty."
-  when: transfer_method == 'csp-to-host' and (rhn_username is not defined or rhn_username == '')
-
-- name: Fail for Missing Red Hat Network Password
-  fail:
-    msg: "This role requires rhn_password to be set and non empty."
-  when: transfer_method == 'csp-to-host' and (rhn_password is not defined or rhn_password == '')
 
 - name: Set JBoss EAP Download Facts
   set_fact:
@@ -64,28 +51,38 @@
 #   delay: 10
 #   when: transfer_method == 'url' and jboss_eap_exists.stat.exists == false
 
-- name: Async Download JBoss EAP from Red Hat Customer Portal
-  redhat_csp_download:
-    url: "{{ jboss_eap_artifact_url }}"
-    dest: "{{ jboss_eap_artifact_dl_dest }}"
-    username: "{{ rhn_username }}"
-    password: "{{ rhn_password }}"
-  async: 7200
-  poll: 0
-  register: csp_jboss_eap_download
-  tags:
-    - jboss_eap
-  when: transfer_method == 'csp-to-host' and jboss_eap_exists.stat.exists == false
+# - name: Async Download JBoss EAP from Red Hat Customer Portal
+#   redhat_csp_download:
+#     url: "{{ jboss_eap_artifact_url }}"
+#     dest: "{{ jboss_eap_artifact_dl_dest }}"
+#     username: "{{ rhn_username }}"
+#     password: "{{ rhn_password }}"
+#   async: 7200
+#   poll: 0
+#   register: csp_jboss_eap_download
+#   tags:
+#     - jboss_eap
+#   when: transfer_method == 'csp-to-host' and jboss_eap_exists.stat.exists == false
 
-- name: Check On JBoss EAP Download Completion (CSP)
-  async_status: jid={{ csp_jboss_eap_download.ansible_job_id }}
-  register: job_result1
-  until: job_result1.finished
-  retries: 600
-  delay: 10
-  tags:
-    - jboss_eap
-  when: transfer_method == 'csp-to-host' and jboss_eap_exists.stat.exists == false
+# - name: Check On JBoss EAP Download Completion (CSP)
+#   async_status: jid={{ csp_jboss_eap_download.ansible_job_id }}
+#   register: job_result1
+#   until: job_result1.finished
+#   retries: 600
+#   delay: 10
+#   tags:
+#     - jboss_eap
+#   when: transfer_method == 'csp-to-host' and jboss_eap_exists.stat.exists == false
+
+- name: Get JBOSS source
+  get_url:
+    url : "{{ s3_eap }}"
+    dest: /tmp/
+    
+- name: Get JDBC driver 
+  get_url:
+    url :  "{{ s3_jdbc }}"
+    dest: /tmp/        
 
 - name: Copy JBoss EAP
   copy:

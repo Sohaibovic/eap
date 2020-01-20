@@ -50,16 +50,7 @@
   loop:
     - firewalld
     - unzip
-
-- name: Get JBOSS source
-  get_url:
-    url : "{{ s3_eap }}"
-    dest: /tmp/
-- name: Get JDBC driver 
-  get_url:
-    url :  "{{ s3_jdbc }}"
-    dest: /tmp/         
-
+ 
 - name: Include JBOSS common tasks
   include_tasks: common.yml
 
