@@ -1,4 +1,3 @@
----
 - name: Install & Configure JBoss EAP
   hosts: tag_Role_eap:&tag_Name_{{scope}}
   gather_facts: yes

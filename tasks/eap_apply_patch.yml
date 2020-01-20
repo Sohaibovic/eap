@@ -1,4 +1,3 @@
----
 
 - name: Set JBoss EAP Patch Download Facts
   set_fact:
