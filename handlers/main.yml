@@ -1,0 +1,14 @@
+---
+- name: Restart JBoss
+  become: true
+  service:
+    name: "{{ jboss_eap_service_file }}"
+    state: restarted
+
+- name: Verify JBoss is running
+  wait_for: port="{{ instance_calculated_http_port }}" host="{{ instance_bind_address }}" timeout=120
+  notify: Check JBoss is available
+
+- name: Check JBoss is available
+  uri:
+    url: "http://{{ instance_bind_address }}:{{ instance_bind_address }}"
