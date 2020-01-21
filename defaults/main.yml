@@ -1,67 +1,56 @@
 ---
-# defaults file for eap
-jboss_java_pkg_name: java-1.8.0-openjdk-devel
-install_java: true
-rhsm_subscribe_host: true
+
+# System Config
+rhpoolid: "{{ rhpoolid }}"
 rhsm_disable_existing_repositories: true
 rhsm_enable_required_repositories: true
-install_pip_dependencies: true
+rhsm_subscribe_host: true
 rhsm_repositories:
   - rhel-7-server-rpms
   - rhel-7-server-optional-rpms
-jboss_eap_artifact_source: https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=55301
-jboss_eap_patch_artifact_source: https://access.redhat.com/jbossnetwork/restricted/softwareDownload.html?softwareId=57891
-jboss_eap_artifacts_dl_dest_dir: /tmp
-jboss_eap_group: jboss_as
-jboss_eap_user: jboss-as
-jboss_eap_library_dest_dir: "/opt/{{ jboss_eap_user }}"
-jboss_eap_base_version: 7.1
-jboss_eap_home_dir_name: jboss-eap-{{jboss_eap_base_version}}
-jboss_eap_base_directory_name: jboss-eap-7.1.0
-jboss_eap_artifact_name: "{{ jboss_eap_base_directory_name }}.zip"
-jboss_eap_patch_artifact_name: jboss-eap-7.1.2-patch.zip
-jboss_eap_standalone_backup_dir_name: .standalone
-jboss_eap_default_logging_timezone: Europe/Paris
-jboss_eap_default_config_nonha: 'standalone.xml'
-jboss_eap_default_config_ha: 'standalone-ha.xml'
-jboss_eap_default_config: "{{ jboss_eap_default_config_nonha }}"
-jboss_eap_default_mode: standalone
-jboss_eap_bind_default_web_address: 0.0.0.0
-jboss_eap_bind_default_management_address: 0.0.0.0
-jboss_eap_default_http_port: 8080
-jboss_eap_default_management_port: 9990
-jboss_eap_ha: false
-# TODO: Reenable patch
-jboss_eap_apply_patch: true
-jboss_eap_service_conf_dir: "/etc/jboss"
-jboss_eap_service_log_dir: "/var/log"
-jboss_eap_service_data_dir: "/var/run"
-jboss_instances:
-  - name: standalone
 
-# Other vars 
+# EAP Application Variables
+artifact: "{{ artifact }}"
+deploy_path: /opt/jboss-as/jboss-eap-7.1/standalone/deployments/
 scope: "{{ scope }}"
 sqlip:  "{{ sqlip }}"
-rhpoolid: "{{ rhpoolid }}"
-jfrog_server: "{{ jfrog_server }}"
-jfrog_user: "{{ jfrog_user }}"
-jfrog_pass: "{{ jfrog_pass }}"
-version: '1.1.0'
-jboss_eap_ha: false
-infra: 'aws'
-# artifact: >-
-#     {{ jfrog_server }}/artifactory/monolith/monolith.war
-artifact: >-
-    http://gitux01.openhybridcloud.io:8081/repository/coolstore-monolith/com/redhat/coolstore/monolith/1.1.0/monolith-1.1.0.war
-jboss_eap_apply_patch: false
-jboss_eap_base_directory_name: jboss-eap-7.1.0
-jboss_source_share: 'utils01.openhybridcloud.io:/exports/jboss'
-rhsm_disable_existing_repositories: false
-rhsm_enable_required_repositories: false
-rhsm_subscribe_host: false
 sqljdbc: 'jdbc:sqlserver://{{ sqlip }}:{{ sqlport }};databaseName=monolith'
 sqlport: '1433'
-transfer_method: copy-from-controller
+version: '1.1.0'
+jfrog_pass: "{{ jfrog_pass }}"
+jfrog_server: "{{ jfrog_server }}"
+jfrog_user: "{{ jfrog_user }}"
+
+# EAP Config
 install_java: yes
-deploy_path: /opt/jboss-as/jboss-eap-7.1/standalone/deployments/
+install_pip_dependencies: true
+jboss_eap_apply_patch: false
+jboss_eap_artifact_name: "{{ jboss_eap_base_directory_name }}.zip"
+jboss_eap_artifacts_dl_dest_dir: /tmp
+jboss_eap_base_directory_name: jboss-eap-7.1.0
+jboss_eap_base_version: 7.1
+jboss_eap_bind_default_management_address: 0.0.0.0
+jboss_eap_bind_default_web_address: 0.0.0.0
+jboss_eap_default_config: "{{ jboss_eap_default_config_nonha }}"
+jboss_eap_default_config_ha: 'standalone-ha.xml'
+jboss_eap_default_config_nonha: 'standalone.xml'
+jboss_eap_default_http_port: 8080
+jboss_eap_default_logging_timezone: Europe/Paris
+jboss_eap_default_management_port: 9990
+jboss_eap_default_mode: standalone
+jboss_eap_group: jboss_as
+jboss_eap_user: jboss-as
+jboss_instances:
+  - name: standalone
+jboss_eap_ha: false
+jboss_eap_home_dir_name: jboss-eap-{{jboss_eap_base_version}}
+jboss_eap_library_dest_dir: "/opt/{{ jboss_eap_user }}"
+jboss_eap_patch_artifact_name: jboss-eap-7.1.2-patch.zip
+jboss_eap_service_conf_dir: "/etc/jboss"
+jboss_eap_service_data_dir: "/var/run"
+jboss_eap_service_log_dir: "/var/log"
+jboss_eap_standalone_backup_dir_name: .standalone
+jboss_java_pkg_name: java-1.8.0-openjdk-devel
+
+
 

@@ -1,4 +1,3 @@
-
 - name: Find MS-SQL IP Address 
   set_fact:
     sqlip: "{{ item }}"
@@ -20,20 +19,6 @@
   debug:
     var: ips
     verbosity: 2
-    
-# - name: Return all secrets from a path
-#   set_fact:
-#     db_secrets: "{{ lookup('hashi_vault', 'secret=' + hc_lookup)}}"
-#   vars: 
-#     hc_lookup: "/database/creds/readwrite token={{ hc_vault_token }} url={{ hc_vault_server }}"
-
-# - name: Find MS-SQL password
-#   set_fact:
-#     sqlpass: "{{ db_secrets.password }}"
-
-# - name: Find MS-SQL user
-#   set_fact:
-#     sqluser: "{{ db_secrets.username }}"
 
 - name: Find MS-SQL password
   set_fact:
@@ -42,6 +27,19 @@
 - name: Find MS-SQL user
   set_fact:
     sqluser: "{{ hostvars.fact_store.eap_facts.db_user }}"
+
+# todo when: hashicorp_vault_backend
+# - name: Return all secrets from a path
+#   set_fact:
+#     db_secrets: "{{ lookup('hashi_vault', 'secret=' + hc_lookup)}}"
+#   vars: 
+#     hc_lookup: "/database/creds/readwrite token={{ hc_vault_token }} url={{ hc_vault_server }}"
+# - name: Find MS-SQL password
+#   set_fact:
+#     sqlpass: "{{ db_secrets.password }}"
+# - name: Find MS-SQL user
+#   set_fact:
+#     sqluser: "{{ db_secrets.username }}"
 
 - name: Install needed utilities packages
   yum:
