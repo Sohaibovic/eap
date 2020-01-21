@@ -4,14 +4,12 @@
     jboss_eap_patch_artifact_url: "{{ jboss_eap_patch_artifact_source }}"
     jboss_eap_patch_dest: "{{ jboss_eap_artifacts_dl_dest_dir }}/{{ jboss_eap_patch_artifact_name }}"
 
-
 # Currently we only support patching from base (e.g. 6.x.0), not incremental minor release patches as the role is for initial install
 - name: Determine if the Patch Can Be Applied
   become_user: "{{ jboss_eap_user }}"
   command: "{{ jboss_eap_home }}/bin/jboss-cli.sh 'patch info --verbose'"
   register: patch_info_result
   when: jboss_eap_exists.stat.exists == true
-
 
 #### Download and install base library and patch
 
