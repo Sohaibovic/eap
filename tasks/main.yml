@@ -1,8 +1,7 @@
 - name: Find MS-SQL IP Address 
   set_fact:
     sqlip: "{{ item }}"
-  with_inventory_hostnames:
-    - tag_Role_database:&tag_Name_{{scope}}
+  with_inventory_hostnames: "{{ eap_tags_for_database }}"
 
 - name: Display MS-SQL IP Address
   debug:
@@ -12,8 +11,7 @@
 - name: Find EAP VMs IP addresses
   set_fact:
     ips: "{{ item }}"
-  with_inventory_hostnames:
-    - tag_Role_eap:&tag_Name_{{scope}}
+  with_inventory_hostnames: "{{ eap_tags_for_eap }}"
 
 - name: Display EAP IP Address
   debug:
