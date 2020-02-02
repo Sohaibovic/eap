@@ -427,7 +427,7 @@
                     <protocol type="TCPPING">
                         <property name="initial_hosts">
                         <!-- Added For CoolStore -->
-                        {% for ip in ips %}
+                        {% for ip in play_hosts %}
                         {{ip}} [7600]
                         {% if not loop.last %}
                         ,
